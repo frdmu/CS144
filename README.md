@@ -1,2 +1,2 @@
-# CS144
-Introduction to Computer Networking, Fall 2020
+# Website
+https://cs144.github.io/
