@@ -5,17 +5,19 @@
 
 #include <cstdint>
 #include <string>
-
-//! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
+#include <map>
+using namespace std;
+//! \brief A class that assembles a series of excerpts from a byte stoream (possibly out of order,
 //! possibly overlapping) into an in-order byte stream.
 class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
 
     ByteStream _output;  //!< The reassembled in-order byte stream
-    size_t _capacity;    //!< The maximum number of bytes
+    size_t _capacity, neededIndex, bytesUnassembled;  //!< The maximum number of bytes
+    map<size_t, pair<string, bool> > tmpMap; // Store unordered strings, avoid unorder. 
 
-  public:
+  public: 
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
     //! \note This capacity limits both the bytes that have been reassembled,
     //! and those that have not yet been reassembled.
@@ -30,7 +32,7 @@ class StreamReassembler {
     //! \param index indicates the index (place in sequence) of the first byte in `data`
     //! \param eof the last byte of `data` will be the last byte in the entire stream
     void push_substring(const std::string &data, const uint64_t index, const bool eof);
-
+    void push_data(const std::string &data, const uint64_t index, const uint64_t len, const bool eof);
     //! \name Access the reassembled byte stream
     //!@{
     const ByteStream &stream_out() const { return _output; }
