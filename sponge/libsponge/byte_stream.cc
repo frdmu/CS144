@@ -15,7 +15,6 @@ using namespace std;
 
 ByteStream::ByteStream(const size_t capacity)
     : _capacity(capacity)
-    , bytesInStream(0)
     , bytesWriteTotal(0)
     , bytesReadTotal(0)
     , _end_input(false)
@@ -29,7 +28,6 @@ size_t ByteStream::write(const string &data) {
         stream.push_back(data[i]);
     }
     bytesWriteTotal += n;
-    bytesInStream += n;
     return n;
 }
 
@@ -47,7 +45,6 @@ void ByteStream::pop_output(const size_t len) {
         stream.pop_front();
     }
     bytesReadTotal += n;
-    bytesInStream -= n;
 }
 
 //! Read (i.e., copy and then pop) the next "len" bytes of the stream
@@ -63,7 +60,7 @@ void ByteStream::end_input() { _end_input = true; }
 
 bool ByteStream::input_ended() const { return _end_input; }
 
-size_t ByteStream::buffer_size() const { return bytesInStream; }
+size_t ByteStream::buffer_size() const { return stream.size(); }
 
 bool ByteStream::buffer_empty() const { return (buffer_size() == 0); }
 
